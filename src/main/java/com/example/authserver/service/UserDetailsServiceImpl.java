@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,19 +16,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
-		return org.springframework.security.core.userdetails.User.builder()
-				.username(user.getUsername())
-				.password(user.getPassword())
-				.roles(getRoles(user))
-				.build();
+		User user = userRepository.findByUsername(username);
+		if (user != null) {
+			return org.springframework.security.core.userdetails.User.builder()
+					.username(user.getUsername())
+					.password(user.getPassword())
+					.roles(user.getRoles().toArray(new String[0]))
+					.build();
+		}
+		throw new UsernameNotFoundException("User not found with username: " + username);
 	}
 
-	private String[] getRoles(User user) {
-		if (user.getRoles() == null) {
-			return new String[]{"USER"};
-		}
-		return user.getRoles().toArray(new String[0]);
-	}
 }
