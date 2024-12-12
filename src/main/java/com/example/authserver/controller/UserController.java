@@ -1,8 +1,8 @@
 package com.example.authserver.controller;
 
-import com.example.authserver.entity.User;
-import com.example.authserver.repository.UserRepository;
-import com.example.authserver.service.UserService;
+import com.example.authserver.entity.UserCredential;
+import com.example.authserver.repository.UserCredentialRepository;
+import com.example.authserver.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private AuthService userService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserCredentialRepository userRepository;
 
     @GetMapping("/hi")
     public ResponseEntity<String> hi() {
@@ -28,20 +28,20 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
+    public ResponseEntity<?> updateUser(@RequestBody UserCredential user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        User userInDb = userService.findByUserName(userName);
-        userInDb.setUsername(user.getUsername());
-        userInDb.setPassword(user.getPassword());
-        userService.saveNewUser(userInDb);
+//        User userInDb = userService.findByUserName(userName);
+//        userInDb.setUsername(user.getUsername());
+//        userInDb.setPassword(user.getPassword());
+//        userService.saveNewUser(userInDb);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteUserById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userRepository.deleteByUsername(authentication.getName());
+        //userRepository.deleteById(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

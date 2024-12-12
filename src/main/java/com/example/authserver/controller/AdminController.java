@@ -1,7 +1,7 @@
 package com.example.authserver.controller;
 
-import com.example.authserver.entity.User;
-import com.example.authserver.service.UserService;
+import com.example.authserver.entity.UserCredential;
+import com.example.authserver.repository.UserCredentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    private UserService userService;
+    private UserCredentialRepository userService;
 
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers() {
-        List<User> all = userService.getAll();
+        List<UserCredential> all = userService.findAll();
         if (all != null && !all.isEmpty()) {
             return new ResponseEntity<>(all, HttpStatus.OK);
         }
@@ -26,8 +26,8 @@ public class AdminController {
     }
 
     @PostMapping("/create-admin-user")
-    public void createUser(@RequestBody User user) {
-        userService.saveAdmin(user);
+    public void createUser(@RequestBody UserCredential user) {
+        userService.save(user);
     }
 
     @GetMapping("clear-app-cache")

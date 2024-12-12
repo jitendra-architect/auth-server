@@ -1,5 +1,5 @@
 package com.example.authserver.service;
-
+/*
 import com.example.authserver.entity.User;
 import com.example.authserver.repository.UserRepository;
 import org.bson.types.ObjectId;
@@ -53,3 +53,4 @@ public class UserService {
 		return userRepository.findByUsername(userName);
 	}
 }
+*/
