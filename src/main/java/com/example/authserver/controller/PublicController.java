@@ -1,5 +1,5 @@
 package com.example.authserver.controller;
-
+/*
 import com.example.authserver.entity.User;
 import com.example.authserver.service.UserDetailsServiceImpl;
 import com.example.authserver.service.UserService;
@@ -53,3 +53,4 @@ public class PublicController {
         }
     }
 }
+*/

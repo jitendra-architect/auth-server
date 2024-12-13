@@ -11,6 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -21,9 +23,15 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @GetMapping("/users")
+    public List<UserCredential> getAllUsers() {
+        return service.getAllUsers();
+    }
+
     @PostMapping("/register")
-    public String addNewUser(@RequestBody UserCredential user) {
-        return service.saveUser(user);
+    public String addNewUser(@RequestBody AuthRequest authRequest) {
+
+        return service.saveUser(authRequest);
     }
 
     @PostMapping("/token")
@@ -54,7 +62,7 @@ public class AuthController {
             // String jwt = jwtUtil.generateToken(userDetails.getUsername());
             if(authenticate.isAuthenticated())
             {
-                return new ResponseEntity<>(service.generateToken(authRequest.getUsername()), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(service.generateToken(authRequest.getUsername()), HttpStatus.OK);
             }
             else {
                 throw new RuntimeException("invalid access");
