@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "TaK+HaV^uvCHEFsEVfypW#7g9^k*Z8$V";
+    private final static String SECRET_KEY = "TaK+HaV^uvCHEFsEVfypW#7g9^k*Z8$V";
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -65,10 +65,10 @@ public class JwtUtil {
         return createToken(claims, userDetails.getUsername());
     }
 
-//    public String generateToken(String username) {
-//        Map<String, Object> claims = new HashMap<>();
-//        return createToken(claims, username);
-//    }
+    /*public String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, username);
+    }*/
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
@@ -84,4 +84,5 @@ public class JwtUtil {
 
     public Boolean validateToken(String token) {
         return !isTokenExpired(token);
-    }}
+    }
+}
